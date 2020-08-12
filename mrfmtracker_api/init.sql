@@ -5,8 +5,6 @@ CREATE TABLE accounts (
    username VARCHAR(20)
    password VARCHAR(20)
    email VARCHAR(320)
-
-
 )
 
 CREATE TABLE characters (
