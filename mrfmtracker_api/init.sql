@@ -8,6 +8,10 @@ CREATE TABLE accounts(
    email VARCHAR(320)
 );
 
+INSERT INTO accounts (username, password, email)
+VALUES
+   ('jadong', '1234', 'jadong@gmail.com')
+
 CREATE TABLE jobs(
    job TEXT PRIMARY KEY
 );
@@ -34,6 +38,10 @@ CREATE TABLE characters (
    job TEXT REFERENCES jobs,
    location JSON
 );
+
+INSERT INTO characters (name, level, job)
+VALUES
+   ('Whatevers', 133, 'ARCH MAGE (F/P)')
 
 CREATE TABLE categories (
    category TEXT PRIMARY KEY,
@@ -65,6 +73,10 @@ CREATE TABLE items (
    stats JSON
 );
 
+INSERT INTO items (name, category, text, stats)
+VALUES
+   ('Chaos Scroll 60%', 'SCROLL', 'Alter the...', NULL)
+
 CREATE TABLE listings (
    listingID SERIAL PRIMARY KEY,
    item TEXT REFERENCES items(name),
@@ -75,6 +87,10 @@ CREATE TABLE listings (
    price INTEGER NOT NULL,
    quantity INTEGER
 );
+
+INSERT INTO listings (item, stats, seller, listingDate, soldDate, price, quantity)
+VALUES
+   ('Chaos Scroll 60%', NULL, 'Whatevers', '2020-08-01', NULL, 499999999, 1)
 
 CREATE TABLE sightings (
    sightingID SERIAL PRIMARY KEY,
@@ -87,4 +103,8 @@ CREATE TABLE sightings (
    seller VARCHAR(20),
    location JSON
 );
+
+INSERT INTO sightings (item, stats, creator, sightingDate, price, quantity, seller)
+VALUES
+   ('Chaos Scroll 60%', NULL, 0, '2020-08-05', 549999999, NULL, 'MrsShi')
 
