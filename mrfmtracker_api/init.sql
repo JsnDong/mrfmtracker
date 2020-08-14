@@ -90,7 +90,8 @@ CREATE TABLE listings (
 
 INSERT INTO listings (item, stats, seller, listingDate, soldDate, price, quantity)
 VALUES
-   ('Chaos Scroll 60%', NULL, 'Whatevers', '2020-08-01', NULL, 499999999, 1)
+   ('Chaos Scroll 60%', NULL, 'Whatevers', '2020-08-01', NULL, 499999999, 1),
+   ('Dark Scroll for Wand for Magic 30%', NULL, 'Whatevers', '2020-08-14', NULL, 24999999, 5)
 
 CREATE TABLE sightings (
    sightingID SERIAL PRIMARY KEY,
