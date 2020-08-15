@@ -11,6 +11,7 @@ CREATE TABLE accounts(
 INSERT INTO accounts (username, password, email)
 VALUES
    ('jadong', '1234', 'jadong@gmail.com')
+   ('Roaring','sugoi','sugoi@gmail.com')
 
 CREATE TABLE jobs(
    job TEXT PRIMARY KEY
@@ -42,6 +43,7 @@ CREATE TABLE characters (
 INSERT INTO characters (name, level, job)
 VALUES
    ('Whatevers', 133, 'ARCH MAGE (F/P)')
+   ('RoaringWave',123, 'BUCCANEER')
 
 CREATE TABLE categories (
    category TEXT PRIMARY KEY,
@@ -76,6 +78,7 @@ CREATE TABLE items (
 INSERT INTO items (name, category, text, stats)
 VALUES
    ('Chaos Scroll 60%', 'SCROLL', 'Alter the...', NULL)
+   ('Dark Scroll for Wand for Magic 30%','SCROLL','Alter the...' NULL)
 
 CREATE TABLE listings (
    listingID SERIAL PRIMARY KEY,
@@ -91,7 +94,7 @@ CREATE TABLE listings (
 INSERT INTO listings (item, stats, seller, listingDate, soldDate, price, quantity)
 VALUES
    ('Chaos Scroll 60%', NULL, 'Whatevers', '2020-08-01', NULL, 499999999, 1),
-   ('Dark Scroll for Wand for Magic 30%', NULL, 'Whatevers', '2020-08-14', NULL, 24999999, 5)
+   ('Dark Scroll for Wand for Magic 30%', NULL, 'RoaringWave', '2020-08-14', NULL, 24999999, 5)
 
 CREATE TABLE sightings (
    sightingID SERIAL PRIMARY KEY,
@@ -108,4 +111,5 @@ CREATE TABLE sightings (
 INSERT INTO sightings (item, stats, creator, sightingDate, price, quantity, seller)
 VALUES
    ('Chaos Scroll 60%', NULL, 0, '2020-08-05', 549999999, NULL, 'MrsShi')
+   ('Dark Scroll for Wand for Magic 30%',NULL,0, '2020-08-15',25999999,2, 'MrLeon')
 
