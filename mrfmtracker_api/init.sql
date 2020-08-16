@@ -2,21 +2,21 @@
    POPULATE THE DATABASE WITH TEST VALUES */
 CREATE TABLE accounts (
    accountID SERIAL PRIMARY KEY,
-<<<<<<< HEAD
-   username VARCHAR(20) 
-   password VARCHAR(20) 
-   email VARCHAR(320) 
+   username VARCHAR(20) NOT NULL
+   password VARCHAR(20) NOT NULL
+   email VARCHAR(320) NOT NULL
 )
 =======
-   username VARCHAR(15),
-   password VARCHAR(15),
-   email VARCHAR(320)
+   username VARCHAR(15), NOT NULL
+   password VARCHAR(15), NOT NULL
+   email VARCHAR(320) NOT NULL
 );
 
 INSERT INTO accounts (username, password, email)
 VALUES
    ('jadong', '1234', 'jadong@gmail.com')
    ('Roaring','sugoi','sugoi@gmail.com')
+   ('Awrene', '1234', 'awrene@gmail.com')
 
 CREATE TABLE jobs(
    job TEXT PRIMARY KEY
@@ -37,7 +37,7 @@ VALUES
    ('BANDIT'), ('CHIEF BANDIT'), ('SHADOWER'),
    ('BRAWLER'), ('MARAUDER'), ('BUCCANEER'),
    ('GUNSLINGER'), ('OUTLAW'), ('CORSAIR')
->>>>>>> ae05f548f27437b83506dfac774d9392d1ce8ac4
+
 
 CREATE TABLE characters (
    name VARCHAR(20) 
@@ -45,14 +45,14 @@ CREATE TABLE characters (
    job CHAR(10) 
    storeLocation VARCHAR(20)
 
-<<<<<<< HEAD
+
 )
 =======
 INSERT INTO characters (name, level, job)
 VALUES
    ('Whatevers', 133, 'ARCH MAGE (F/P)')
    ('RoaringWave',123, 'BUCCANEER')
->>>>>>> ae05f548f27437b83506dfac774d9392d1ce8ac4
+   ('SaltyPopcorn', 183, 'NIGHT LORD')
 
 Create TABLE [mrfmtracker.] [schema_name.] table_name
        pk_column data_type Primary Key, 
@@ -68,13 +68,13 @@ CREATE TABLE ITEMS (
       
 
 
-<<<<<<< HEAD
+
 =======
 INSERT INTO items (name, category, text, stats)
 VALUES
    ('Chaos Scroll 60%', 'SCROLL', 'Alter the...', NULL)
    ('Dark Scroll for Wand for Magic 30%','SCROLL','Alter the...' NULL)
->>>>>>> ae05f548f27437b83506dfac774d9392d1ce8ac4
+   ('Ninja Storm 30', 'SKILL BOOK', 'This increases the master level...', NULL)
 
 )
 CREATE TABLE listing (
@@ -82,7 +82,6 @@ CREATE TABLE listing (
    item TEXT REFERENCES items(name),
    stats JSON,
    seller TEXT REFERENCES characters(name),
-<<<<<<< HEAD
    price integer NOT NULL,
    quantity integer,
    location JSON
@@ -97,7 +96,7 @@ INSERT INTO listings (item, stats, seller, listingDate, soldDate, price, quantit
 VALUES
    ('Chaos Scroll 60%', NULL, 'Whatevers', '2020-08-01', NULL, 499999999, 1),
    ('Dark Scroll for Wand for Magic 30%', NULL, 'RoaringWave', '2020-08-14', NULL, 24999999, 5)
->>>>>>> ae05f548f27437b83506dfac774d9392d1ce8ac4
+   ('Ninja Storm 30', NULL, 'SaltyPopcorn', '2020-08-15', NULL, 199999999, 1)
 
 CREATE TABLE sightings (
    sightingID SERIAL PRIMARY KEY,
@@ -111,11 +110,10 @@ CREATE TABLE sightings (
    location JSON 
 );
 
-<<<<<<< HEAD
 =======
 INSERT INTO sightings (item, stats, creator, sightingDate, price, quantity, seller)
 VALUES
    ('Chaos Scroll 60%', NULL, 0, '2020-08-05', 549999999, NULL, 'MrsShi')
    ('Dark Scroll for Wand for Magic 30%',NULL,0, '2020-08-15',25999999,2, 'MrLeon')
+   ('Ninja Storm 30', NULL, 0, '2020-08-10', 199999999, 1, 'SweetPopcorn')
 
->>>>>>> ae05f548f27437b83506dfac774d9392d1ce8ac4
