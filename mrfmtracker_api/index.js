@@ -10,6 +10,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
+const getItems = (request, response) => {
+  pool.query('SELECT * FROM items', (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
+
 const getSightings = (request, response) => {
   pool.query('SELECT * FROM sightings', (error, results) => {
     if (error) {
@@ -18,6 +27,21 @@ const getSightings = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+
+const addItems = (request, response) => {
+  const {name, category, text, status} = request.body;
+
+  pool.query(
+    'INSERT INTO items (name, category, text, status) VALUES ($1, $2, $3, $4)',
+    [name, category, text, stats],
+    (error) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).json({status: 'success', message: 'sighting added'});
+    }
+  )
+}
 
 const addSighting = (request, response) => {
   const {item, stats, creator, sightingDate, price, quantity, seller, location} = request.body;
@@ -33,7 +57,9 @@ const addSighting = (request, response) => {
     }
   )
 }
-
+app.route('/items')
+   .get(getItems)
+   .post(addItems);
 app.route('/sightings')
    .get(getSightings)
    .post(addSighting);

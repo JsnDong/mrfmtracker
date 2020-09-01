@@ -1,5 +1,10 @@
-/* SQL STATESMENT FOUND BELOW WILL ALLOW US TO
-   POPULATE THE DATABASE WITH TEST VALUES */
+/*
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
+GRANT ALL ON SCHEMA public TO POSTGRES;
+GRANT ALL ON SCHEMA public TO public;
+*/
 
 CREATE TABLE accounts(
    accountID SERIAL PRIMARY KEY,
@@ -10,8 +15,8 @@ CREATE TABLE accounts(
 
 INSERT INTO accounts (username, password, email)
 VALUES
-   ('jadong', '1234', 'jadong@gmail.com')
-   ('Roaring','sugoi','sugoi@gmail.com')
+   ('jadong', '1234', 'jadong@gmail.com'),
+   ('Roaring', 'sugoi','sugoi@gmail.com');
 
 CREATE TABLE jobs(
    job TEXT PRIMARY KEY
@@ -31,10 +36,10 @@ VALUES
    ('ASSASSIN'), ('HERMIT'), ('NIGHT LORD'),
    ('BANDIT'), ('CHIEF BANDIT'), ('SHADOWER'),
    ('BRAWLER'), ('MARAUDER'), ('BUCCANEER'),
-   ('GUNSLINGER'), ('OUTLAW'), ('CORSAIR')
+   ('GUNSLINGER'), ('OUTLAW'), ('CORSAIR');
 
 CREATE TABLE characters (
-   name VARCHAR(20),
+   name VARCHAR(20) PRIMARY KEY,
    level INTEGER,
    job TEXT REFERENCES jobs,
    location JSON
@@ -42,15 +47,15 @@ CREATE TABLE characters (
 
 INSERT INTO characters (name, level, job)
 VALUES
-   ('Whatevers', 133, 'ARCH MAGE (F/P)')
-   ('RoaringWave',123, 'BUCCANEER')
+   ('Whatevers', 133, 'ARCH MAGE (F/P)'),
+   ('RoaringWave', 123, 'BUCCANEER');
 
 CREATE TABLE categories (
    category TEXT PRIMARY KEY,
    parent_category TEXT
 );
 
-INSERT INTO categories (code, parent_category)
+INSERT INTO categories (category, parent_category)
 VALUES
    ('HAT', 'EQP'), ('EARRING', 'EQP'),
    ('TOP', 'EQP'), ('BOTTOM', 'EQP'), ('OVERALL', 'EQP'),
@@ -62,11 +67,11 @@ VALUES
    ('SPEAR', 'EQP'), ('POLEARM', 'EQP'),
    ('BOW', 'EQP'), ('CROSSBOW', 'EQP'),
    ('CLAW', 'EQP'), ('KNUCKLE', 'EQP'), ('GUN', 'EQP'),
-   ('POTION', 'USE'), ('AMMUNITION', 'USER'), ('SUMMON', 'USER'),
-   ('RETURN SCROLL', 'USE'), ('SCROLL', 'USER'),
+   ('POTION', 'USE'), ('AMMUNITION', 'USE'), ('SUMMON', 'USE'),
+   ('RETURN SCROLL', 'USE'), ('SCROLL', 'USE'),
    ('DROPPING', 'ETC'), ('ORE', 'ETC'),
    ('GAME', 'ETC'), ('CRAFT', 'ETC'),
-   ('SETUP', 'SETUP')
+   ('SETUP', 'SETUP');
 
 CREATE TABLE items (
    name TEXT PRIMARY KEY, 
@@ -77,14 +82,14 @@ CREATE TABLE items (
 
 INSERT INTO items (name, category, text, stats)
 VALUES
-   ('Chaos Scroll 60%', 'SCROLL', 'Alter the...', NULL)
-   ('Dark Scroll for Wand for Magic 30%','SCROLL','Alter the...' NULL)
+   ('Chaos Scroll 60%', 'SCROLL', 'Alter the...', NULL),
+   ('Dark Scroll for Wand for Magic 30%','SCROLL','Alter the...', NULL);
 
 CREATE TABLE listings (
    listingID SERIAL PRIMARY KEY,
-   item TEXT REFERENCES items(name),
+   item TEXT REFERENCES items,
    stats JSON,
-   seller TEXT REFERENCES characters(name),
+   seller VARCHAR(20) REFERENCES characters,
    listingDate DATE NOT NULL,
    soldDate DATE,
    price INTEGER NOT NULL,
@@ -94,13 +99,13 @@ CREATE TABLE listings (
 INSERT INTO listings (item, stats, seller, listingDate, soldDate, price, quantity)
 VALUES
    ('Chaos Scroll 60%', NULL, 'Whatevers', '2020-08-01', NULL, 499999999, 1),
-   ('Dark Scroll for Wand for Magic 30%', NULL, 'RoaringWave', '2020-08-14', NULL, 24999999, 5)
+   ('Dark Scroll for Wand for Magic 30%', NULL, 'RoaringWave', '2020-08-14', NULL, 24999999, 5);
 
 CREATE TABLE sightings (
    sightingID SERIAL PRIMARY KEY,
-   item TEXT REFERENCES items(name),
+   item TEXT REFERENCES items,
    stats JSON, 
-   creator INTEGER REFERENCES accounts(accountID),
+   creator INTEGER REFERENCES accounts,
    sightingDate DATE NOT NULL,
    price integer NOT NULL,
    quantity integer,
@@ -110,6 +115,5 @@ CREATE TABLE sightings (
 
 INSERT INTO sightings (item, stats, creator, sightingDate, price, quantity, seller)
 VALUES
-   ('Chaos Scroll 60%', NULL, 0, '2020-08-05', 549999999, NULL, 'MrsShi')
-   ('Dark Scroll for Wand for Magic 30%',NULL,0, '2020-08-15',25999999,2, 'MrLeon')
-
+   ('Chaos Scroll 60%', NULL, 1, '2020-08-05', 549999999, NULL, 'MrsShi'),
+   ('Dark Scroll for Wand for Magic 30%', NULL, 1, '2020-08-15', 25999999, 2, 'MrLeon');
