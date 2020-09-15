@@ -10,6 +10,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
+const addAccount = (request, response) => {
+  const {email, username, password} = request.body;
+
+  pool.query(
+    'INSERT INTO accounts (email, username, password) VALUES ($1, $2, $3)',
+    [email, username, password],
+    (error) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).json({status: 'success', message: 'account added'});
+    }
+  )
+}
+
 const getItems = (request, response) => {
   pool.query('SELECT * FROM items', (error, results) => {
     if (error) {
@@ -28,11 +43,11 @@ const getSightings = (request, response) => {
   });
 };
 
-const addItems = (request, response) => {
-  const {name, category, text, status} = request.body;
+const addItem = (request, response) => {
+  const {name, category, text, stats} = request.body;
 
   pool.query(
-    'INSERT INTO items (name, category, text, status) VALUES ($1, $2, $3, $4)',
+    'INSERT INTO items (name, category, text) VALUES ($1, $2, $3, $4)',
     [name, category, text, stats],
     (error) => {
       if (error) {
@@ -57,13 +72,16 @@ const addSighting = (request, response) => {
     }
   )
 }
+
+app.route('/signup')
+   .post(addAccount);
 app.route('/items')
    .get(getItems)
-   .post(addItems);
+   .post(addItem);
 app.route('/sightings')
    .get(getSightings)
    .post(addSighting);
 
-app.listen(process.env.PORT || 3002, () => {
+app.listen(process.env.PORT || 9000, () => {
   console.log('server listening')
 });
