@@ -45,8 +45,22 @@ class SignUpPage extends React.Component {
         });
     }
 
-    handleSignUp() {
-        console.log('signup!')
+    handleSignUp(e) {
+        console.log('here');
+        fetch('http://localhost:9000/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: this.state.email,
+                username: this.state.username,
+                password: this.state.password
+            })
+        })
+        .then(response => response.json())
+        .then(json => console.log(json));
+        e.preventDefault();
     }
 
     render() {
@@ -55,7 +69,7 @@ class SignUpPage extends React.Component {
                 <Link to='/'>Home</Link><br/>
 
                 Sign Up
-                <form onSubmit={this.handleSignup}>
+                <form onSubmit={this.handleSignUp}>
                     <input type='text'
                            placeholder='email'
                            value={this.state.email}

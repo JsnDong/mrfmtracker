@@ -7,10 +7,10 @@ import {
 class SignInPage extends React.Component {
     constructor(props) {
         super();
-        this.state({
+        this.state = {
             name: '',
             password: ''
-        })
+        };
 
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);

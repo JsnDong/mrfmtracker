@@ -10,20 +10,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
-const addAccount = (request, response) => {
-  const {email, username, password} = request.body;
-
-  pool.query(
-    'INSERT INTO accounts (email, username, password) VALUES ($1, $2, $3)',
-    [email, username, password],
-    (error) => {
-      if (error) {
-        throw error;
-      }
-      response.status(201).json({status: 'success', message: 'account added'});
+const getTables = (requests, response) => {
+  pool.query('SELECT table_name from information_schema.tables', (error, results) => {
+    if (error) {
+      throw error;
     }
-  )
+    response.status(200).json(results.rows);
+  });
 }
+
+const getAccounts = (request, response) => {
+  pool.query('SELECT * FROM accounts', (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
 
 const getItems = (request, response) => {
   pool.query('SELECT * FROM items', (error, results) => {
@@ -42,6 +45,22 @@ const getSightings = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+
+const addAccount = (request, response) => {
+  const {email, username, password} = request.body;
+  console.log(request.body);
+
+  pool.query(
+    'INSERT INTO accounts (email, username, password) VALUES ($1, $2, $3)',
+    [email, username, password],
+    (error) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).json({status: 'success', message: 'account added'});
+    }
+  )
+}
 
 const addItem = (request, response) => {
   const {name, category, text, stats} = request.body;
@@ -73,7 +92,10 @@ const addSighting = (request, response) => {
   )
 }
 
+app.route('/tables')
+   .get(getTables);
 app.route('/signup')
+   .get(getAccounts)
    .post(addAccount);
 app.route('/items')
    .get(getItems)
