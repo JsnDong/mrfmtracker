@@ -6,11 +6,6 @@ CREATE TABLE accounts (
    password VARCHAR(20) NOT NULL
    email VARCHAR(320) NOT NULL
 )
-=======
-   username VARCHAR(15), NOT NULL
-   password VARCHAR(15), NOT NULL
-   email VARCHAR(320) NOT NULL
-);
 
 INSERT INTO accounts (username, password, email)
 VALUES
@@ -47,7 +42,7 @@ CREATE TABLE characters (
 
 
 )
-=======
+
 INSERT INTO characters (name, level, job)
 VALUES
    ('Whatevers', 133, 'ARCH MAGE (F/P)')
@@ -67,9 +62,6 @@ CREATE TABLE ITEMS (
       Category varchar(50) NOT NULL, 
       
 
-
-
-=======
 INSERT INTO items (name, category, text, stats)
 VALUES
    ('Chaos Scroll 60%', 'SCROLL', 'Alter the...', NULL)
@@ -85,11 +77,7 @@ CREATE TABLE listing (
    price integer NOT NULL,
    quantity integer,
    location JSON
-=======
-   listingDate DATE NOT NULL,
-   soldDate DATE,
-   price INTEGER NOT NULL,
-   quantity INTEGER
+
 );
 
 INSERT INTO listings (item, stats, seller, listingDate, soldDate, price, quantity)
@@ -110,10 +98,8 @@ CREATE TABLE sightings (
    location JSON 
 );
 
-=======
 INSERT INTO sightings (item, stats, creator, sightingDate, price, quantity, seller)
 VALUES
    ('Chaos Scroll 60%', NULL, 0, '2020-08-05', 549999999, NULL, 'MrsShi')
    ('Dark Scroll for Wand for Magic 30%',NULL,0, '2020-08-15',25999999,2, 'MrLeon')
    ('Ninja Storm 30', NULL, 0, '2020-08-10', 199999999, 1, 'SweetPopcorn')
-
