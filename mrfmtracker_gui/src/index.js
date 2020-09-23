@@ -9,7 +9,8 @@ import {
 
 import HomePage from './pages//HomePage.js';
 import SignInPage from './pages/SignInPage.js';
-import SignUpPage from './pages/SignUpPage.js';  
+import SignUpPage from './pages/SignUpPage.js';
+import AddSightingPage from './pages/AddSightingPage.js';  
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.render(
         <Route exact path='/' component={HomePage}/>
         <Route path='/signin' component={SignInPage}/>
         <Route path='/signup' component={SignUpPage}/>
+        <Route path='/add_sighting' component={AddSightingPage}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
