@@ -28,6 +28,28 @@ const getAccounts = (request, response) => {
   });
 };
 
+const getCategories = (request, response) => {
+  const {parentCategory, category} = request.params;
+
+  let query = 'SELECT category FROM categories';
+
+  if (parentCategory) {
+    query += ` WHERE parent_category = '${parentCategory}'`;
+  }
+  if (category) {
+    query += ` AND category = '${category}'`;
+  }
+
+  console.log(query);
+
+  pool.query(query, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+}
+
 const getItems = (request, response) => {
   pool.query('SELECT * FROM items', (error, results) => {
     if (error) {
@@ -97,6 +119,8 @@ app.route('/tables')
 app.route('/signup')
    .get(getAccounts)
    .post(addAccount);
+app.route('/categories/:parentCategory?/:category?')
+   .get(getCategories);
 app.route('/items')
    .get(getItems)
    .post(addItem);

@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import ItemStatsForm from '../components/ItemStatsForm.js';
+import EquipStatsForm from '../components/EquipStatsForm.js';
 
 class AddSightingPage extends React.Component {
     constructor(props) {
@@ -53,7 +53,7 @@ class AddSightingPage extends React.Component {
                             <option value={itemName} key={itemName}>{itemName}</option>)}
                     </select><br/>
 
-                    <ItemStatsForm isNewItem={true}/>
+                    <EquipStatsForm isNewItem={false}/>
                 </form>
             </div>
         );
