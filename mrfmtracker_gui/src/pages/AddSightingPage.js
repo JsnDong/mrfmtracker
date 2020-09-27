@@ -6,17 +6,52 @@ import {
 
 import EquipStatsForm from '../components/EquipStatsForm.js';
 
+import * as DateHTML from '../tools/DateHTML.js';
+
 class AddSightingPage extends React.Component {
     constructor(props) {
         super();
         this.state = {
             isLoading: true,
             itemNames: [],
-            item: null,
-            sightingDate: ''
+            itemName: 'Select an Item',
+            stats: null,
+            sightingDate: DateHTML.getToday()
         }
 
-    this.handleAddSighting = this.handleAddSighting.bind(this);
+        this.handleItemChange = this.handleItemChange.bind(this);
+        this.handleSightingDateChange = this.handleSightingDateChange.bind(this);
+        this.handleAddSighting = this.handleAddSighting.bind(this);
+    }
+
+    handleItemChange(event) {
+        event.preventDefault();
+
+        this.setState({
+            isLoading: true
+        });
+
+        const itemName = event.target.value;
+        const itemNameURL = itemName.replaceAll('%', '%25');
+        fetch(`http://localhost:9000/item/${itemNameURL}`)
+        .then(response => response.json())
+        .then(rows => {
+            this.setState({
+                isLoading: false,
+                itemName: itemName,
+                stats: rows[0].stats
+            })}
+        );
+    }
+
+    handleSightingDateChange(event) {
+        event.preventDefault();
+
+        const sightingDate = event.target.value;
+        this.setState({
+            sightingDate: sightingDate
+        });
+
     }
 
     handleAddSighting(event) {
@@ -24,22 +59,12 @@ class AddSightingPage extends React.Component {
     }
 
     componentDidMount() {
-        let [month, date, year] = new Date().toLocaleDateString().split('/');
-
-        if (parseInt(month) < 10) {
-            month = '0' + month;
-        }
-        if (parseInt(date) < 10) {
-            date = '0' + date;
-        }
-
         fetch('http://localhost:9000/items')
         .then(response => response.json())
         .then(items =>
             this.setState({
                 isLoading: false,
                 itemNames: items.map(item => item.name),
-                sightingDate: [year, month, date].join('-')
             })
         );
     }
@@ -55,20 +80,27 @@ class AddSightingPage extends React.Component {
 
                 Add a Sighting
                 <form onSubmit={this.handleAddSighting}>
+
                     <label htmlFor='item'>Item: </label>
-                    <select name='item' id='item'>
-                        <option value={null} selected disabled>Select a Item</option>
+                    <select id='item' value={this.state.itemName} onChange={this.handleItemChange}>
+                        <option disabled>Select an Item</option>
                         {this.state.itemNames.map(itemName => 
                             <option value={itemName} key={itemName}>{itemName}</option>)}
                     </select><br/>
 
-                    <EquipStatsForm isNewItem={false}/>
+                    {this.state.stats?
+                        <div>
+                            <EquipStatsForm isNewItem={false}/>
+                        </div>
+                        : null
+                    }
 
                     <label htmlFor='sightingDate'>Date: </label>
                     <input id='sightingDate'
-                           type='date'
-                           defaultValue={this.state.sightingDate}
-                           max={this.state.sightingDate}/><br/>
+                        type='date'
+                        defaultValue={this.state.sightingDate}
+                        max={DateHTML.getToday()}
+                        onChange={this.handleSightingDateChange}/><br/>
 
                     <label htmlFor='price'>Price: </label>
                     <input id='price'
@@ -82,7 +114,10 @@ class AddSightingPage extends React.Component {
 
                     <label htmlFor='seller'>Seller: </label>
                     <input id='seller'
-                           type='text'/>
+                           type='text'/><br/>
+                    
+                    <br/>
+                    <input type='submit' value={'Record'}/>
                 </form>
             </div>
         );

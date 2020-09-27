@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const {pool} = require('./config');
+const { response } = require('express');
 const router = express.Router();
 
 const app = express();
@@ -59,6 +60,19 @@ const getItems = (request, response) => {
   });
 };
 
+const getItem = (request, response) => {
+  const {item} = request.params;
+
+  pool.query(
+    `SELECT * FROM items WHERE name = '${item}'`,
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    });
+};
+
 const getSightings = (request, response) => {
   pool.query('SELECT * FROM sightings', (error, results) => {
     if (error) {
@@ -68,9 +82,21 @@ const getSightings = (request, response) => {
   });
 };
 
+const getItemSightings = (request, response) => {
+  const {item} = request.params;
+
+  pool.query(
+    `SELECT * FROM sightings WHERE item = ${item}`,
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    });
+};
+
 const addAccount = (request, response) => {
   const {email, username, password} = request.body;
-  console.log(request.body);
 
   pool.query(
     'INSERT INTO accounts (email, username, password) VALUES ($1, $2, $3)',
@@ -124,9 +150,13 @@ app.route('/categories/:parentCategory?/:category?')
 app.route('/items')
    .get(getItems)
    .post(addItem);
+app.route('/item/:item')
+   .get(getItem);
 app.route('/sightings')
    .get(getSightings)
    .post(addSighting);
+app.route('/:item/sightings')
+   .get(getItemSightings);
 
 app.listen(process.env.PORT || 9000, () => {
   console.log('server listening')

@@ -16,7 +16,6 @@ class ItemStatsForm extends React.Component {
         fetch('http://localhost:9000/categories/EQP')
         .then(response => response.json())
         .then(categories => {
-            console.log(categories);
             this.setState({
                 isLoading: false,
                 categories: categories.map(categoryObj => categoryObj.category)
@@ -76,7 +75,7 @@ class ItemStatsForm extends React.Component {
                                 <option value={attackSpeed} key={attackSpeed}>{attackSpeed.toUpperCase()}</option>)}
                         </select><br/>
                     </div>
-                : null   
+                    : null   
                 }
 
                 <label htmlFor='str'>Str: </label>
