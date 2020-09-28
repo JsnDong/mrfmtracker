@@ -8,7 +8,8 @@ class HomePage extends React.Component {
     render() {
         return (
             <div>
-                <Link to={'/signin'}>Sign In</Link>
+                <Link to={'/signin'}>Sign In</Link><br/>
+                <Link to={'/add_sighting'}>Add a Sighting</Link><br/>
             </div>
         );
     }

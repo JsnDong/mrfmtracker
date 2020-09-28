@@ -87,8 +87,8 @@ class SignUpPage extends React.Component {
         });
     }
 
-    handleSignUp(e) {
-        console.log('here');
+    handleSignUp(event) {
+        event.preventDefault();
         fetch('http://localhost:9000/signup', {
             method: 'POST',
             headers: {
@@ -102,7 +102,6 @@ class SignUpPage extends React.Component {
         })
         .then(response => response.json())
         .then(json => console.log(json));
-        e.preventDefault();
     }
 
     render() {
@@ -113,7 +112,7 @@ class SignUpPage extends React.Component {
                 Sign Up
                 <p>All fields are required</p>
                 <form onSubmit={this.handleSignUp} autoComplete='off'>
-                    <label for='email'>Email: </label><br/>
+                    <label htmlFor='email'>Email: </label><br/>
                     <input id='email'
                            type='email'
                            placeholder='email'
@@ -122,7 +121,7 @@ class SignUpPage extends React.Component {
                            required
                            onChange={this.handleEmailChange}/><br/>
                     <span>{this.state.errors.email}</span><br/>
-                    <label for='username'>Username: </label><br/>
+                    <label htmlFor='username'>Username: </label><br/>
                     <input id='username'
                            type='text'
                            placeholder='username'
@@ -131,7 +130,7 @@ class SignUpPage extends React.Component {
                            required
                            onChange={this.handleUsernameChange}/><br/>
                     <span>{this.state.errors.username}</span><br/>
-                    <label for='password'>Password: </label><br/>
+                    <label htmlFor='password'>Password: </label><br/>
                     <input id='password'
                            type='password'
                            placeholder='password'

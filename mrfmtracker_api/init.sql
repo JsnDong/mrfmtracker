@@ -11,7 +11,7 @@ GRANT ALL ON SCHEMA public TO public;
 CREATE TABLE accounts(
    accountID SERIAL PRIMARY KEY,
    username VARCHAR(15) NOT NULL,
-   password VARCHAR(15) NOT NULL,
+   password VARCHAR(32) NOT NULL,
    email VARCHAR(320) NOT NULL
 );
 
