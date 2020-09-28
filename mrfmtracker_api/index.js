@@ -2,14 +2,64 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const {pool} = require('./config');
-const { response } = require('express');
-const router = express.Router();
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+
+const passport = require('passport'),
+  LocalStrategy = require('passport-local').Strategy;
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(cookieParser());
+app.use(session({secret: 'playboys',
+                 resave: true,
+                 saveUninitialized: true}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(cors());
+
+passport.use(new LocalStrategy((username, password, done) => {
+  pool.query(
+    `SELECT * FROM accounts WHERE username = '${username}'`,
+    (error, results) => {
+      if (error) {
+        return done(error);
+      }
+
+      if (results.rows.length > 0) {
+        const user = results.rows[0];
+        if (user.password === password) {
+          done(null, user);
+        } else {
+          done(null, false);
+        }
+      } else {
+        done (null, false);
+      }
+    }
+  );
+}));
+
+passport.serializeUser((user, done) => {
+  done(null, user.username);
+});
+
+passport.deserializeUser((username, done) => {
+  pool.query(
+    `SELECT * FROM accounts WHERE username = '${username}'`,
+    (error, results) => {
+      if (error) {
+        return done(error);
+      }
+
+      done(null, results.rows[0]);
+    }
+  );
+});
 
 const getTables = (requests, response) => {
   pool.query('SELECT table_name from information_schema.tables', (error, results) => {
@@ -40,8 +90,6 @@ const getCategories = (request, response) => {
   if (category) {
     query += ` AND category = '${category}'`;
   }
-
-  console.log(query);
 
   pool.query(query, (error, results) => {
     if (error) {
@@ -142,6 +190,11 @@ const addSighting = (request, response) => {
 
 app.route('/tables')
    .get(getTables);
+app.route('/signin')
+  .post(passport.authenticate('local'),
+    (request, response) => {
+      response.send(request.user);
+    });
 app.route('/signup')
    .get(getAccounts)
    .post(addAccount);
